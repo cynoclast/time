@@ -32,7 +32,7 @@ public class Time {
             System.exit(1);
         } else {
             if (args.length == 1 || args.length == 2) {
-                calculateHoursStuff(args);
+                calculateOneDay(args);
             } else if (args.length == 6) {
                 // 8.5 9.27 8.83 8.57 9:30-12:30 12:40-
                 final Pair<Integer, Integer> morningDurations = calculateMorningDurations(args[4]);
@@ -55,8 +55,13 @@ public class Time {
         }
     }
 
-    private static Pair<Integer, Integer> calculateMorningDurations(String args) {
-        String[] morningTimes = args.split("-");
+    /**
+     * Takes "8:00-1:00" and returns "5,0".
+     * @param morningStartEndTimes the input time string
+     * @return Integer pair of hours and minutes
+     */
+    static Pair<Integer, Integer> calculateMorningDurations(String morningStartEndTimes) {
+        String[] morningTimes = morningStartEndTimes.split("-");
 
         String morningString = morningTimes[0];
 
@@ -88,14 +93,14 @@ public class Time {
         return Pair.of(morningDurationHours, morningDurationMinutes);
     }
 
-    private static void calculateHoursStuff(String[] args) {
-        // 8:35-1:00
-        // or 8:35-1:00 1:10-
-        // 1 arg: spit out remaining time needed and departure time
-
-        // 8:35, 1:00
+    /**
+     * Input:
+     *  "8:35-1:00" Just morning
+     *  or "8:35-1:00 1:10-" Morning with unknown afternoon end time.
+     * @param args The morning times or morning and afternoon start.
+     */
+    private static void calculateOneDay(String[] args) {
         final Pair<Integer, Integer> morningDurations = calculateMorningDurations(args[0]);
-
 
         if (args.length == 1) {
             System.out.println(args[0] + " " + morningDurations.getLeft() + ":" + morningDurations.getRight());
@@ -124,12 +129,13 @@ public class Time {
                 System.out.print(args[0] + " " + args[1] + "\nTime to leave: " + integerStringPair.getLeft() + ":" + integerStringPair.getRight());
             } else {
                 //8:35-1:00 1:10-6:10
-                calculateTimeForDay(args, morningDurations.getLeft(), morningDurations.getRight());
+                final float calculatedHoursForCompletedDay = calculateHoursForCompletedDay(args, morningDurations.getLeft(), morningDurations.getRight());
+                System.out.println(args[0] + " " + args[1] + " > " + calculatedHoursForCompletedDay);
             }
         }
     }
 
-    private static void calculateTimeForDay(String[] args, int morningDurationHours, int morningDurationMinutes) {
+    static float calculateHoursForCompletedDay(String[] args, int morningDurationHours, int morningDurationMinutes) {
         //8:35-1:00 1:20-5:10
         final String[] afternoonStartTimePieces = args[1].split("-")[0].split(":");
         int afternoonStartTimeHour = Integer.parseInt(afternoonStartTimePieces[0]);
@@ -162,10 +168,15 @@ public class Time {
 
         float fractionalHoursWorked = minutesWorked / 60f;
         DecimalFormat justFraction = new DecimalFormat(".##");
-        System.out.println(args[0] + " " + args[1] + " > " + hoursWorked + justFraction.format(fractionalHoursWorked));
+
+        // gross hack
+        String fractionalHoursWorkedrounded = hoursWorked + justFraction.format(fractionalHoursWorked);
+        fractionalHoursWorked = Float.parseFloat(fractionalHoursWorkedrounded);
+        // /gross hack
+        return  fractionalHoursWorked;
     }
 
-    private static Pair<Integer, String> calculateTimeToLeave(String args, int timeLeftHours, int timeLeftMinutes) {
+    static Pair<Integer, String> calculateTimeToLeave(String args, int timeLeftHours, int timeLeftMinutes) {
         // 12:25-
         String afternoonStartTimeString = "";
         if (args.length() == 5) {
