@@ -142,7 +142,7 @@ public class Time {
             if (args[1].endsWith("-")) {
                 //8:35-1:00 1:10-
                 final Pair<Integer, String> integerStringPair = calculateTimeToLeave(args[1], timeLeftHours, timeLeftMinutes);
-                System.out.print("Time to leave: " + integerStringPair.getLeft() + ":" + integerStringPair.getRight());
+                System.out.println("Time to leave: " + integerStringPair.getLeft() + ":" + integerStringPair.getRight());
             } else {
                 //8:35-1:00 1:10-6:10
                 final float calculatedHoursForCompletedDay = calculateHoursForCompletedDay(args, morningDurations.getLeft(), morningDurations.getRight());
