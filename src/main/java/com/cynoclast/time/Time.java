@@ -60,10 +60,6 @@ public class Time {
                     afternoonStopTimeMinute -= 60;
                 }
 
-                for (String arg : args) {
-                    System.out.print(arg + " ");
-                }
-                System.out.println();
                 System.out.println(afternoonStopTimeHour + ":" + afternoonStopTimeMinute);
 
                 if (hoursToGo > 1.0) {
@@ -146,7 +142,7 @@ public class Time {
             if (args[1].endsWith("-")) {
                 //8:35-1:00 1:10-
                 final Pair<Integer, String> integerStringPair = calculateTimeToLeave(args[1], timeLeftHours, timeLeftMinutes);
-                System.out.print(args[0] + " " + args[1] + "\nTime to leave: " + integerStringPair.getLeft() + ":" + integerStringPair.getRight());
+                System.out.print("Time to leave: " + integerStringPair.getLeft() + ":" + integerStringPair.getRight());
             } else {
                 //8:35-1:00 1:10-6:10
                 final float calculatedHoursForCompletedDay = calculateHoursForCompletedDay(args, morningDurations.getLeft(), morningDurations.getRight());
@@ -230,5 +226,4 @@ public class Time {
         }
         return Pair.of(timeToGoHour, timeToGoMinuteString);
     }
-
 }
