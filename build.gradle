@@ -1,0 +1,40 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+
+version = '1.0'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+//create a single Jar with all dependencies
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.cynoclast.time.Time'
+    }
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'com.cynoclast.time.Time'
+    }
+    baseName = 'time'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+//Get dependencies from Maven central repository
+repositories {
+        mavenLocal()
+        maven {
+            credentials {
+                username System.getenv('SA_U') //fetched from environment
+                password System.getenv('SA_P') //fetched from environment
+            }
+            url "https://artifactory.nike.com/artifactory/all-repos"
+        }
+}
+
+//Project dependencies
+dependencies {
+	compile 'org.apache.commons:commons-lang3:3.8.1+'
+}
