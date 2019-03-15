@@ -2,6 +2,7 @@ package com.cynoclast.time;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 /**
@@ -40,17 +41,36 @@ public class Time {
                 float hoursAlreadyWorked = Float.parseFloat(args[0]) + Float.parseFloat(args[1]) + Float.parseFloat(args[2]) + Float.parseFloat(args[3]);
                 float hoursToGo = 40f - hoursAlreadyWorked - morningDurations.getLeft() - (morningDurations.getRight() / 60f);
 
+                final String[] afternoonStartTimePieces = args[5].split("-")[0].split(":");
+                int afternoonStartTimeHour = Integer.parseInt(afternoonStartTimePieces[0]);
+                if (afternoonStartTimeHour < 6) {
+                    afternoonStartTimeHour += 12;
+                }
+                int afternoonStartTimeMinute = Integer.parseInt(afternoonStartTimePieces[1]);
+
+                DecimalFormat df = new DecimalFormat("##");
+                df.setRoundingMode(RoundingMode.DOWN);
+
+                String hoursToGoString = df.format(hoursToGo);
+                int afternoonStopTimeHour = afternoonStartTimeHour + Integer.parseInt(hoursToGoString);
+
+                int afternoonStopTimeMinute = afternoonStartTimeMinute + morningDurations.getRight();
+                if (afternoonStopTimeMinute > 60) {
+                    afternoonStopTimeHour++;
+                    afternoonStopTimeMinute -= 60;
+                }
 
                 for (String arg : args) {
                     System.out.print(arg + " ");
                 }
                 System.out.println();
+                System.out.println(afternoonStopTimeHour + ":" + afternoonStopTimeMinute);
 
-                DecimalFormat minutesOfHour = new DecimalFormat("##");
-
-                System.out.println(hoursToGo + " hours");
-                System.out.println(minutesOfHour.format(hoursToGo * 60) + " minutes");
-
+                if (hoursToGo > 1.0) {
+                    System.out.println(hoursToGoString + " hours " + df.format(hoursToGo * 60) + " minutes");
+                } else {
+                    System.out.println(new DecimalFormat("##").format(hoursToGo * 60) + " minutes");
+                }
             }
         }
     }
