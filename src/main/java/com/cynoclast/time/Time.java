@@ -130,6 +130,11 @@ public class Time {
             timeLeftHours--;
         }
 
+        if (timeLeftMinutes < morningDurations.getRight()) {
+            timeLeftHours--;
+            timeLeftMinutes += 60;
+        }
+
         timeLeftMinutes = timeLeftMinutes - morningDurations.getRight();
         timeLeftHours = timeLeftHours - morningDurations.getLeft();
 
