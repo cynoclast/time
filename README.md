@@ -30,6 +30,8 @@
 
 ``java -classpath /Users/`whoami`/apps/time.jar com.cynoclast.time.Time``
 
+Best used as an alias like:
 
+``alias tm="java -classpath /Users/`whoami`/apps/time.jar com.cynoclast.time.Time"``
 
 
