@@ -182,7 +182,7 @@ public class Time {
 
         int hoursWorked = morningDurationHours + afternoonDurationHours;
         int minutesWorked = morningDurationMinutes + afternoonDurationMinutes;
-        if (minutesWorked > 60) {
+        if (minutesWorked >= 60) {
             minutesWorked -= 60;
             hoursWorked++;
         }
