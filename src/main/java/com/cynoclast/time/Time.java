@@ -29,45 +29,49 @@ public class Time {
      */
     public static void main(String[] args) {
         if (args == null || args.length == 0) {
-            System.out.println("No time.");
+            System.err.println("No time!");
             System.exit(1);
         } else {
             if (args.length == 1 || args.length == 2) {
                 calculateOneDay(args);
             } else if (args.length == 6) {
-                // 8.5 9.27 8.83 8.57 9:30-12:30 12:40-
-                final Pair<Integer, Integer> morningDurations = calculateMorningDurations(args[4]);
-
-                float hoursAlreadyWorked = Float.parseFloat(args[0]) + Float.parseFloat(args[1]) + Float.parseFloat(args[2]) + Float.parseFloat(args[3]);
-                float hoursToGo = 40f - hoursAlreadyWorked - morningDurations.getLeft() - (morningDurations.getRight() / 60f);
-
-                final String[] afternoonStartTimePieces = args[5].split("-")[0].split(":");
-                int afternoonStartTimeHour = Integer.parseInt(afternoonStartTimePieces[0]);
-                if (afternoonStartTimeHour < 6) {
-                    afternoonStartTimeHour += 12;
-                }
-                int afternoonStartTimeMinute = Integer.parseInt(afternoonStartTimePieces[1]);
-
-                DecimalFormat df = new DecimalFormat("##");
-                df.setRoundingMode(RoundingMode.DOWN);
-
-                String hoursToGoString = df.format(hoursToGo);
-                int afternoonStopTimeHour = afternoonStartTimeHour + Integer.parseInt(hoursToGoString);
-
-                int afternoonStopTimeMinute = afternoonStartTimeMinute + morningDurations.getRight();
-                if (afternoonStopTimeMinute > 60) {
-                    afternoonStopTimeHour++;
-                    afternoonStopTimeMinute -= 60;
-                }
-
-                System.out.println(afternoonStopTimeHour + ":" + afternoonStopTimeMinute);
-
-                if (hoursToGo > 1.0) {
-                    System.out.println(hoursToGoString + " hours " + df.format(hoursToGo * 60) + " minutes");
-                } else {
-                    System.out.println(new DecimalFormat("##").format(hoursToGo * 60) + " minutes");
-                }
+                calculateFridayTimeToLeave(args);
             }
+        }
+    }
+
+    private static void calculateFridayTimeToLeave(String[] args) {
+        // 8.5 9.27 8.83 8.57 9:30-12:30 12:40-
+        final Pair<Integer, Integer> morningDurations = calculateMorningDurations(args[4]);
+
+        float hoursAlreadyWorked = Float.parseFloat(args[0]) + Float.parseFloat(args[1]) + Float.parseFloat(args[2]) + Float.parseFloat(args[3]);
+        float hoursToGo = 40f - hoursAlreadyWorked - morningDurations.getLeft() - (morningDurations.getRight() / 60f);
+
+        final String[] afternoonStartTimePieces = args[5].split("-")[0].split(":");
+        int afternoonStartTimeHour = Integer.parseInt(afternoonStartTimePieces[0]);
+        if (afternoonStartTimeHour < 6) {
+            afternoonStartTimeHour += 12;
+        }
+        int afternoonStartTimeMinute = Integer.parseInt(afternoonStartTimePieces[1]);
+
+        DecimalFormat df = new DecimalFormat("##");
+        df.setRoundingMode(RoundingMode.DOWN);
+
+        String hoursToGoString = df.format(hoursToGo);
+        int afternoonStopTimeHour = afternoonStartTimeHour + Integer.parseInt(hoursToGoString);
+
+        int afternoonStopTimeMinute = afternoonStartTimeMinute + morningDurations.getRight();
+        if (afternoonStopTimeMinute > 60) {
+            afternoonStopTimeHour++;
+            afternoonStopTimeMinute -= 60;
+        }
+
+        System.out.println(afternoonStopTimeHour + ":" + afternoonStopTimeMinute);
+
+        if (hoursToGo > 1.0) {
+            System.out.println(hoursToGoString + " hours " + df.format(hoursToGo * 60) + " minutes");
+        } else {
+            System.out.println(new DecimalFormat("##").format(hoursToGo * 60) + " minutes");
         }
     }
 
