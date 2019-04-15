@@ -250,7 +250,7 @@ public class Time {
 
         int timeToGoHour = afternoonStartTimeHour + timeLeftHours;
 
-        if (timeToGoMinute > 60) {
+        if (timeToGoMinute >= 60) {
             timeToGoMinute -= 60;
             timeToGoHour++;
         }
