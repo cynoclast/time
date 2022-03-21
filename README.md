@@ -22,16 +22,20 @@
 
 `54 minutes`
 
+## Configure (optional)
+
+Edit gradle.properties `deploy.dir` to something on your path. Default is `/users/cynoclast/bin`.
+
 ## Build:
 
-`./gradlew clean fatJar`
+`./gradlew clean fatJar deploy`
 
 ## Run:
 
-``java -classpath /Users/`whoami`/apps/time.jar com.cynoclast.time.Time``
+``java -classpath /Users/`whoami`/bin/time-1.0.jar com.cynoclast.time.Time``
 
 Best used as an alias like:
 
-``alias tm="java -classpath /Users/`whoami`/apps/time.jar com.cynoclast.time.Time"``
+``alias tm="java -classpath /Users/`whoami`/bin/time-1.0.jar com.cynoclast.time.Time"``
 
 

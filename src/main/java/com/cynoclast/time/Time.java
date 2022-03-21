@@ -7,6 +7,10 @@ import java.text.DecimalFormat;
 import java.util.regex.Pattern;
 
 /**
+ * Calculates when to leave today, a day's time in decimal hours, or when to leave on Friday so we get a 40 hour work
+ * week with arbitrary start, lunch, return and quitting times.
+ *
+ * Require no arguments and derives what calculation to run based solely on input.
  * @author cynoclast
  */
 @SuppressWarnings("Duplicates")
@@ -54,6 +58,9 @@ public class Time {
             } else if (args.length == 6) {
                 final String fridayTimeToLeave = calculateFridayTimeToLeave(args);
                 System.out.println(fridayTimeToLeave);
+            } else {
+                System.err.println("Unknown number of arguments");
+                System.exit(1);
             }
         }
     }

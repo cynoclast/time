@@ -22,16 +22,17 @@ task fatJar(type: Jar) {
     with jar
 }
 
+task deploy(type: Copy) {
+    from ('build/libs') {
+        'time-1.0.jar'
+    }
+    println "${this.properties['deploy.dir']}"
+    into "${this.properties['deploy.dir']}"
+}
+
 //Get dependencies from Maven central repository
 repositories {
         mavenLocal()
-        maven {
-            credentials {
-                username System.getenv('SA_U') //fetched from environment
-                password System.getenv('SA_P') //fetched from environment
-            }
-            url "https://artifactory.nike.com/artifactory/all-repos"
-        }
     repositories {
         mavenCentral()
     }
