@@ -191,7 +191,7 @@ public class Time {
      *
      * @param args                   the day's log of time worked in roughly this format 8:35-1:00 1:20-5:10
      * @param morningDurationHours   the number of hours worked in the morning
-     * @param morningDurationMinutes the numver of minutes worked in the morning
+     * @param morningDurationMinutes the number of minutes worked in the morning
      * @return the day's time in decimal hours
      */
     static float calculateHoursForCompletedDay(String[] args, int morningDurationHours, int morningDurationMinutes) {

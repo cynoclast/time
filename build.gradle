@@ -1,44 +1,37 @@
-apply plugin: 'java'
-apply plugin: 'idea'
-
+plugins {
+    id 'java'
+}
 
 version = '1.0'
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
 
-//create a single Jar with all dependencies
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.apache.commons:commons-lang3:3.8.1'
+    testImplementation 'junit:junit:4.13'
+}
+
 jar {
     manifest {
         attributes 'Main-Class': 'com.cynoclast.time.Time'
     }
-}
-
-task fatJar(type: Jar) {
-    manifest {
-        attributes 'Main-Class': 'com.cynoclast.time.Time'
-    }
-    baseName = 'time'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
+    archiveBaseName = 'time'
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 task deploy(type: Copy) {
-    from ('build/libs') {
-        'time-1.0.jar'
+    from('build/libs') {
+        include 'time-1.0.jar'
     }
-    println "${this.properties['deploy.dir']}"
-    into "${this.properties['deploy.dir']}"
-}
-
-//Get dependencies from Maven central repository
-repositories {
-        mavenLocal()
-    repositories {
-        mavenCentral()
+    into "${project.properties['deploy.dir']}"
+    doLast {
+        println "Deployed to: ${project.properties['deploy.dir']}"
     }
-}
-
-dependencies {
-	compile 'org.apache.commons:commons-lang3:3.8.1+'
-    testCompile group: 'junit', name: 'junit', version: '4.12'
 }

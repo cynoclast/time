@@ -29,8 +29,8 @@ public class TimeTest {
         String aMorning = "8:00-1:00";
         final Pair<Integer, Integer> integerIntegerPair = Time.calculateMorningDurations(aMorning);
         assertNotNull(integerIntegerPair);
-        assertEquals("Should be five hours", new Integer(5), integerIntegerPair.getLeft());
-        assertEquals("Should be four hours and no minutes", new Integer(0), integerIntegerPair.getRight());
+        assertEquals("Should be five hours", Integer.valueOf(5), integerIntegerPair.getLeft());
+        assertEquals("Should be four hours and no minutes", Integer.valueOf(0), integerIntegerPair.getRight());
     }
 
     @Test
@@ -38,22 +38,22 @@ public class TimeTest {
         String aMorning = "8:30-1:00";
         final Pair<Integer, Integer> integerIntegerPair = Time.calculateMorningDurations(aMorning);
         assertNotNull(integerIntegerPair);
-        assertEquals("Should be five hours", new Integer(4), integerIntegerPair.getLeft());
-        assertEquals("Should be four hours and no minutes", new Integer(30), integerIntegerPair.getRight());
+        assertEquals("Should be five hours", Integer.valueOf(4), integerIntegerPair.getLeft());
+        assertEquals("Should be four hours and no minutes", Integer.valueOf(30), integerIntegerPair.getRight());
     }
 
     @Test
     public void testCalculateHoursForCompletedDay_happyPath() {
         String[] args = {"8:35-1:00", "1:10-6:10"};
         final float calculatedHoursForCompletedDay = Time.calculateHoursForCompletedDay(args, 3, 0);
-        assertEquals("should be aasfasd", 8.0, calculatedHoursForCompletedDay, 0.0);
+        assertEquals("should be 8.0", 8.0, calculatedHoursForCompletedDay, 0.0);
     }
 
     @Test
     public void testCalculateHoursForCompletedDay_weirdMinutes() {
         String[] args = {"8:35-1:22", "1:55-7:22"};
         final float calculatedHoursForCompletedDay = Time.calculateHoursForCompletedDay(args, 3, 0);
-        assertEquals("should be aasfasd", 8.449999809265137, calculatedHoursForCompletedDay, 0.0);
+        assertEquals("should be 8.449999809265137", 8.449999809265137, calculatedHoursForCompletedDay, 0.0);
     }
 
     @Test
