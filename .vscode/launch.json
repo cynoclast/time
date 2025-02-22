@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+    {
+        "type": "java",
+        "name": "Launch Java Program",
+        "request": "launch",
+        "mainClass": ""
+    },
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Time with args",
+            "request": "launch",
+            "mainClass": "com.cynoclast.time.Time",
+            "projectName": "time",
+            "args": ["8:00-1:00", "1:30-"]
+        }
+    ]
+}
